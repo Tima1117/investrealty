@@ -8,13 +8,13 @@ const georgian = Noto_Sans_Georgian({ subsets: ["georgian"], weight: ["400", "60
 const georgianSerif = Noto_Serif_Georgian({ subsets: ["georgian"], weight: ["500", "700"], variable: "--font-georgian-serif", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://investrealty.vercel.app"),
+  metadataBase: new URL("https://investrealty-theta.vercel.app"),
   title: "Invest Realty — недвижимость в Батуми: новостройки, вторичка, пентхаусы, сопровождение сделки",
   description: "Агентство недвижимости Invest Realty в Батуми: подбор и покупка квартир у моря, продажа, коммерция, сделки удалённо, регистрация в Доме юстиции. 4.8 по 35 отзывам в Google. Офис: ул. Эквтиме Такаишвили, 44-50.",
   openGraph: {
     title: "Invest Realty — недвижимость в Батуми",
     description: "Студии от $59 900, квартиры и пентхаусы у моря, сопровождение сделки до выписки из реестра. 4.8 в Google.",
-    url: "https://investrealty.vercel.app",
+    url: "https://investrealty-theta.vercel.app",
     siteName: "Invest Realty",
     locale: "ru_RU",
     type: "website",
