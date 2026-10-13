@@ -148,21 +148,6 @@ html[lang=ka] .section-title{letter-spacing:0;font-size:clamp(28px,3.4vw,50px)}
 /* ─── Services ───────────────────────────────────────────────────────────── */
 .services{background:var(--ink);padding:110px 0 100px;position:relative;overflow:hidden}
 .services::before{content:"";position:absolute;inset:-20% -10% auto;height:70%;background:radial-gradient(ellipse at 20% 0%,rgba(198,57,14,.28),transparent 55%);pointer-events:none}
-.svc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;perspective:1400px}
-.svc{position:relative;background:var(--ink2);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:26px 24px 22px;color:#fff;overflow:hidden;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease,border-color .25s;display:flex;flex-direction:column;gap:12px;min-height:330px}
-.svc::before{content:"";position:absolute;inset:0;background:radial-gradient(360px circle at var(--x,50%) var(--y,50%),rgba(226,74,26,.22),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
-.svc:hover{border-color:rgba(226,74,26,.5)}
-.svc:hover::before{opacity:1}
-.svc-top{display:flex;justify-content:space-between;align-items:center}
-.svc-ico{width:56px;height:56px;border-radius:16px;background:rgba(198,57,14,.16);color:#ff8a5c;display:grid;place-items:center}
-.svc-ico svg{width:34px;height:34px}
-.svc-n{font-family:var(--fd);font-size:14px;color:rgba(255,255,255,.35);font-style:italic}
-.svc h3{font-family:var(--fd);font-size:24px;font-weight:700;margin:4px 0 0;line-height:1.2}
-.svc-text{font-size:14px;line-height:1.65;color:rgba(255,255,255,.7);margin:0}
-.svc-items{list-style:none;padding:0;margin:0;display:flex;gap:6px;flex-wrap:wrap}
-.svc-items li{font-size:12px;font-weight:700;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.85)}
-.svc-book{margin-top:auto;padding-top:10px;color:var(--cream);font-weight:800;font-size:14px}
-.svc-book:hover{color:#fff}
 .svc-note{margin:28px 0 0;font-size:13px;color:rgba(255,255,255,.5)}
 
 /* ─── About ──────────────────────────────────────────────────────────────── */
@@ -230,11 +215,6 @@ html[lang=ka] .section-title{letter-spacing:0;font-size:clamp(28px,3.4vw,50px)}
 .chat-msg{max-width:86%;padding:9px 42px 9px 13px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,.1);font-size:13px;line-height:1.45;position:relative}
 .chat-msg.me{align-self:flex-end;background:var(--brand);border-radius:16px 16px 4px 16px}
 .chat-msg i{position:absolute;right:10px;bottom:7px;font-size:10px;font-style:normal;color:rgba(255,255,255,.55)}
-.map{grid-column:span 2;grid-row:span 2}
-.map-svg{position:absolute;inset:0;width:100%;height:100%;opacity:.95}
-.map .bento-title,.map-pins{position:relative;z-index:1}
-.map-pins{list-style:none;padding:0;margin:auto 0 0;display:flex;gap:6px;flex-wrap:wrap}
-.map-pins li{font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px;background:rgba(21,17,14,.7);border:1px solid rgba(255,255,255,.14)}
 .check{grid-column:span 2}
 .check-list{list-style:none;padding:0;margin:0;display:grid;gap:7px}
 .check-list li{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600}
@@ -415,3 +395,50 @@ footer{background:#0f0c0a;color:rgba(255,255,255,.55);padding:34px 0;font-size:1
   .reels-track{animation:none}
   .chero-line{animation:none}
 }
+
+/* Services: photographic editorial accordion */
+.service-editorial{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:64px;align-items:start}
+.service-photo{position:sticky;top:100px;height:640px;overflow:hidden;border-radius:3px 80px 3px 3px;background:var(--ink3)}
+.service-photo img{object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity .65s,transform 1.1s}
+.service-photo img.selected{opacity:1;transform:scale(1)}
+.service-photo::after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(15,12,9,.9))}
+.service-photo-caption{position:absolute;inset:auto 32px 30px;z-index:1;color:white;display:grid;gap:18px}
+.service-photo-caption>span:first-child{font-size:10px;letter-spacing:.2em}
+.service-photo-caption b{font:500 36px/1.1 var(--fd);max-width:330px}
+.service-photo-index{font:500 40px/1 var(--fd);color:var(--cream)}
+.service-photo-index i{font:500 15px var(--fb);color:#d8cfc5}
+.service-row{border-top:1px solid #ffffff26;color:#fff}
+.service-row:last-child{border-bottom:1px solid #ffffff26}
+.service-row h3{margin:0}
+.service-row h3 button{width:100%;border:0;background:transparent;color:inherit;display:grid;grid-template-columns:28px minmax(0,1fr) 32px;align-items:center;text-align:left;gap:20px;padding:25px 0;cursor:pointer;font:500 clamp(21px,2.15vw,30px)/1.2 var(--fd)}
+.service-number{font:600 11px var(--fb);color:#a39585;align-self:center}
+.service-toggle{border:1px solid #ffffff38;border-radius:50%;width:32px;height:32px;display:grid;place-items:center;font:400 21px var(--fb);transition:background .25s,transform .25s}
+.service-row.selected .service-toggle{background:var(--brand);border-color:var(--brand);transform:rotate(180deg)}
+.service-row.selected .service-number{color:#ff8a5c}
+.service-row h3 button:hover{color:var(--cream)}
+.service-row button:focus-visible,.district button:focus-visible,.district a:focus-visible,.service-detail a:focus-visible{outline:2px solid var(--cream);outline-offset:5px}
+.service-detail{padding:0 0 28px 48px}
+.service-detail p{font-size:14px;color:#c8beb3;line-height:1.75;margin-bottom:18px}
+.service-detail ul{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:8px;color:#efe7dc;font-size:12px}
+.service-detail li::before{content:"—";color:#ff8a5c;margin-right:12px}
+.service-detail a{display:inline-flex;align-items:center;gap:25px;font-size:13px;font-weight:700;color:var(--cream);padding-bottom:7px;border-bottom:1px solid #f4dead66}
+.service-detail a span{font-size:20px;transition:transform .2s}
+.service-detail a:hover span{transform:translate(3px,-3px)}
+/* Area selector: real city photography instead of an invented coastline */
+.district{grid-column:span 2;grid-row:span 2;padding:30px;border-radius:22px;isolation:isolate}
+.district-photo{object-fit:cover;z-index:-2;transition:transform 1.2s}
+.district:hover .district-photo{transform:scale(1.035)}
+.district-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,17,15,.65),rgba(12,17,15,.04) 30%,rgba(12,17,15,.9) 75%)}
+.district .bento-title{color:white}
+.district .bento-title small{color:#e0dfd5}
+.district-content{margin-top:auto;padding-top:80px}
+.district-index{font-size:11px;letter-spacing:.15em;color:var(--cream)}
+.district-content h3{font:500 clamp(29px,3.1vw,44px)/1.2 var(--fd);margin:10px 0 22px;overflow-wrap:anywhere}
+.district-options{display:flex;gap:7px;flex-wrap:wrap}
+.district-options button{border:1px solid #ffffff60;background:#15110e8c;color:white;border-radius:3px;padding:9px 12px;min-height:42px;font-size:11px;cursor:pointer;transition:background .2s}
+.district-options button[aria-pressed=true]{background:var(--cream);border-color:var(--cream);color:var(--ink)}
+.district-cta{display:flex;justify-content:space-between;gap:16px;align-items:center;border-top:1px solid #ffffff40;margin-top:22px;padding-top:17px;font-size:13px;font-weight:700}
+.district-cta span{font-size:24px;color:var(--cream)}
+@media(max-width:1000px){.service-editorial{gap:30px}.service-photo{height:610px}.service-photo-caption{left:22px;right:22px}.service-photo-caption b{font-size:30px}.service-row h3 button{gap:12px}.service-detail{padding-left:40px}}
+@media(max-width:760px){.service-editorial{grid-template-columns:minmax(0,1fr);gap:28px}.service-photo{position:relative;top:auto;height:300px;border-radius:3px 55px 3px 3px}.service-photo-caption{bottom:22px;gap:12px}.service-photo-caption b{font-size:28px;max-width:80%}.service-photo-index{position:absolute;right:0;bottom:0;font-size:26px}.service-row h3 button{padding:23px 0;font-size:23px}.service-detail{padding-left:40px}.district{grid-column:span 1;grid-row:auto;min-height:480px;padding:24px}.district-content h3{font-size:33px}}
+@media(prefers-reduced-motion:reduce){.service-photo img,.service-toggle,.district-photo,.service-detail a span{transition:none;transform:none!important}}

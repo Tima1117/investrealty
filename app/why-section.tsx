@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { motion, useInView, animate } from "framer-motion";
+import { motion, useInView, animate, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import { WaIcon } from "./hero-city";
 
 export type WhyCopy = {
@@ -17,20 +18,25 @@ export type WhyCopy = {
 function Counter({ value, label, delay }: { value: string; label: string; delay: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const reduced = useReducedMotion();
   useEffect(() => {
-    const el = ref.current; if (!el || !inView) return;
+    const el = ref.current; if (!el) return;
+    if (reduced) { el.textContent = value; return; }
+    if (!inView) return;
     const num = parseFloat(value.replace(/[^\d.]/g, ""));
     const prefix = value.match(/^[^\d]*/)?.[0] ?? ""; const suffix = value.match(/[^\d.]*$/)?.[0] ?? "";
     const dec = value.includes(".") ? 1 : 0;
     const ctrl = animate(0, num, { duration: 1.6, delay, ease: [0.22, 1, 0.36, 1], onUpdate: v => { el.textContent = `${prefix}${v.toFixed(dec)}${suffix}`; } });
     return () => ctrl.stop();
-  }, [inView, value, delay]);
-  return <div className="stat"><b><span ref={ref}>0</span></b><span>{label}</span></div>;
+  }, [inView, value, delay, reduced]);
+  return <div className="stat"><b><span ref={ref}>{value}</span></b><span>{label}</span></div>;
 }
 
 function Chat({ c }: { c: WhyCopy["chat"] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15% 0px" });
+  const observed = useInView(ref, { once: true, margin: "-15% 0px" });
+  const reduced = useReducedMotion();
+  const inView = observed || reduced;
   return (
     <div ref={ref} className="bento chat">
       <div className="bento-title">{c.title}</div>
@@ -47,7 +53,9 @@ function Chat({ c }: { c: WhyCopy["chat"] }) {
 
 function Checklist({ c }: { c: WhyCopy["check"] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15% 0px" });
+  const observed = useInView(ref, { once: true, margin: "-15% 0px" });
+  const reduced = useReducedMotion();
+  const inView = observed || reduced;
   return (
     <div ref={ref} className="bento check">
       <div className="bento-title">{c.title}</div>
@@ -66,42 +74,36 @@ function Checklist({ c }: { c: WhyCopy["check"] }) {
   );
 }
 
-const PINS: [number, number][] = [[62, 22], [52, 36], [42, 48], [30, 60], [20, 74]];
-
-function MapTile({ c }: { c: WhyCopy["map"] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15% 0px" });
+function MapTile({ c, wa, ask }: { c: WhyCopy["map"]; wa: string; ask: string }) {
+  const [active, setActive] = useState(0);
+  const url = new URL(wa);
+  url.searchParams.set("text", `${url.searchParams.get("text") ?? ""} — ${c.pins[active]}`);
   return (
-    <div ref={ref} className="bento map">
+    <div className="bento district">
+      <Image className="district-photo" src="/images/city-aerial.webp" alt="Batumi" fill sizes="(max-width: 760px) 90vw, 50vw" />
+      <div className="district-shade" />
       <div className="bento-title">{c.title}<small>{c.sub}</small></div>
-      <svg className="map-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden>
-        <defs><linearGradient id="sea" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stopColor="#163a4a" /><stop offset="1" stopColor="#0c1e28" /></linearGradient></defs>
-        <rect width="100" height="100" fill="url(#sea)" />
-        <motion.path d="M100 0 L72 0 C64 10 60 26 50 36 C42 44 36 50 32 60 C27 72 22 82 8 100 L100 100 Z" fill="#2a2320" initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 0.8 }} />
-        <motion.path d="M72 0 C64 10 60 26 50 36 C42 44 36 50 32 60 C27 72 22 82 8 100" fill="none" stroke="#f4dead" strokeOpacity="0.5" strokeWidth="0.8" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 1.6, ease: "easeInOut" }} />
-        <path d="M78 14 C70 30 66 44 56 56 C48 66 44 76 36 92" fill="none" stroke="#5a4a40" strokeWidth="0.6" strokeDasharray="1.5 1.5" />
-        {PINS.map(([x, y], i) => (
-          <g key={i}>
-            <motion.circle cx={x} cy={y} r="3.2" fill="#c6390e" fillOpacity="0.28" initial={{ scale: 0 }} animate={inView ? { scale: [0.6, 1.6, 1] } : {}} transition={{ delay: 0.9 + i * 0.3, duration: 1.4, repeat: Infinity, repeatDelay: 2.4 }} style={{ transformOrigin: `${x}px ${y}px` }} />
-            <motion.circle cx={x} cy={y} r="1.5" fill="#c6390e" stroke="#f4dead" strokeWidth="0.6" initial={{ scale: 0, opacity: 0 }} animate={inView ? { scale: 1, opacity: 1 } : {}} transition={{ delay: 0.9 + i * 0.3, type: "spring", stiffness: 300, damping: 14 }} style={{ transformOrigin: `${x}px ${y}px` }} />
-          </g>
-        ))}
-      </svg>
-      <ul className="map-pins">{c.pins.map((p, i) => <motion.li key={p} initial={{ opacity: 0, x: -8 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 1 + i * 0.3 }}>{p}</motion.li>)}</ul>
+      <div className="district-content">
+        <span className="district-index">0{active + 1} / 05</span>
+        <h3 key={c.pins[active]}>{c.pins[active]}</h3>
+        <div className="district-options" role="group" aria-label={c.title}>{c.pins.map((p, i) => <button key={i} type="button" aria-pressed={active === i} onClick={() => setActive(i)}>{p}</button>)}</div>
+        <a className="district-cta" href={url.toString()} target="_blank" rel="noopener noreferrer">{ask}<span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   );
 }
 
 function JournalTile({ c }: { c: WhyCopy["journal"] }) {
   const [i, setI] = useState(0);
-  useEffect(() => { const id = window.setInterval(() => setI(k => (k + 1) % c.months.length), 2600); return () => window.clearInterval(id); }, [c.months.length]);
+  const reduced = useReducedMotion();
+  useEffect(() => { if (reduced) return; const id = window.setInterval(() => setI(k => (k + 1) % c.months.length), 2600); return () => window.clearInterval(id); }, [c.months.length, reduced]);
   return (
     <div className="bento journal">
       <div className="bento-title">{c.title}<small>{c.sub}</small></div>
       <div className="jr-stack" aria-hidden>
         {[2, 1, 0].map(k => {
           const m = c.months[(i + k) % c.months.length];
-          return <motion.div key={m + k} className="jr-card" style={{ "--k": k } as CSSProperties} initial={{ y: 30, opacity: 0 }} animate={{ y: k * -10, opacity: 1 - k * 0.3, scale: 1 - k * 0.06 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}><b>{m}</b><span>Invest Realty · Batumi</span></motion.div>;
+          return <motion.div key={m + k} className="jr-card" style={{ "--k": k } as CSSProperties} initial={{ y: 30, opacity: 0 }} animate={{ y: k * -10, opacity: 1 - k * 0.3, scale: 1 - k * 0.06 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>{k === 0 && <><b>{m}</b><span>Invest Realty · Batumi</span></>}</motion.div>;
         })}
       </div>
     </div>
@@ -121,7 +123,7 @@ export function WhySection({ c, wa }: { c: WhyCopy; wa: string }) {
             <div className="stats">{c.stats.map(([v, l], i) => <Counter key={l} value={v} label={l} delay={i * 0.12} />)}</div>
           </div>
           <Chat c={c.chat} />
-          <MapTile c={c.map} />
+          <MapTile c={c.map} wa={wa} ask={c.cta.btn} />
           <Checklist c={c.check} />
           <JournalTile c={c.journal} />
           <div className="bento cta-tile">
