@@ -426,7 +426,10 @@ footer{background:#0f0c0a;color:rgba(255,255,255,.55);padding:34px 0;font-size:1
 .service-detail a:hover span{transform:translate(3px,-3px)}
 /* Area selector: real city photography instead of an invented coastline */
 .district{grid-column:span 2;grid-row:span 2;padding:30px;border-radius:22px;isolation:isolate}
-.district-photo{object-fit:cover;z-index:-2;transition:transform 1.2s}
+.district-photo{object-fit:cover;z-index:-2;opacity:0;transition:opacity .55s ease,transform 1.2s}
+.district-photo.selected{opacity:1}
+.district-credit{font-size:10px;line-height:1.4;color:#e0dfd5;margin-top:12px}
+.district-credit a:hover{text-decoration:underline}
 .district:hover .district-photo{transform:scale(1.035)}
 .district-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,17,15,.65),rgba(12,17,15,.04) 30%,rgba(12,17,15,.9) 75%)}
 .district .bento-title{color:white}

@@ -74,20 +74,62 @@ function Checklist({ c }: { c: WhyCopy["check"] }) {
   );
 }
 
+const districtPhotos = [
+  {
+    "src": "/images/district-makhinjauri.webp",
+    "author": "Krzysztof Ziarnek, Kenraiz",
+    "source": "https://commons.wikimedia.org/wiki/File:Makhinjauri_Beach_kz1.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "src": "/images/district-new-boulevard.webp",
+    "author": "w0zny",
+    "source": "https://commons.wikimedia.org/wiki/File:Batumi,_Lech_and_Maria_Kaczynski_St._Batumi_blv.,_Georgia_Bebop_Drone_2015-08-26T170204%2B0000_36F032.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "src": "/images/district-old-town.webp",
+    "author": "Aleksey Muhranoff",
+    "source": "https://commons.wikimedia.org/wiki/File:Batumi._Piazza_Square.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "src": "/images/district-rustaveli.webp",
+    "author": "Андрей Романенко",
+    "source": "https://commons.wikimedia.org/wiki/File:Rustaveli_Avenue_in_Batumi.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "src": "/images/district-gonio.webp",
+    "author": "Sigara Icelmez",
+    "source": "https://commons.wikimedia.org/wiki/File:Gonio,_Batumi,_Georgia.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  }
+];
+
 function MapTile({ c, wa, ask }: { c: WhyCopy["map"]; wa: string; ask: string }) {
   const [active, setActive] = useState(0);
+  const [shown, setShown] = useState(0);
+  const [loaded, setLoaded] = useState<boolean[]>([]);
+  useEffect(() => { if (loaded[active]) setShown(active); }, [active, loaded]);
   const url = new URL(wa);
   url.searchParams.set("text", `${url.searchParams.get("text") ?? ""} — ${c.pins[active]}`);
   return (
     <div className="bento district">
-      <Image className="district-photo" src="/images/city-aerial.webp" alt="Batumi" fill sizes="(max-width: 760px) 90vw, 50vw" />
+      {districtPhotos.map((photo, i) => <Image key={photo.src} className={`district-photo${shown === i ? " selected" : ""}`} src={photo.src} alt={c.pins[i]} aria-hidden={shown !== i} fill sizes="(max-width: 760px) 90vw, 50vw" onLoad={() => setLoaded(prev => { if (prev[i]) return prev; const next = [...prev]; next[i] = true; return next; })} />)}
       <div className="district-shade" />
       <div className="bento-title">{c.title}<small>{c.sub}</small></div>
-      <div className="district-content">
+      <div className="district-content" aria-busy={!loaded[active]}>
         <span className="district-index">0{active + 1} / 05</span>
         <h3 key={c.pins[active]}>{c.pins[active]}</h3>
         <div className="district-options" role="group" aria-label={c.title}>{c.pins.map((p, i) => <button key={i} type="button" aria-pressed={active === i} onClick={() => setActive(i)}>{p}</button>)}</div>
         <a className="district-cta" href={url.toString()} target="_blank" rel="noopener noreferrer">{ask}<span aria-hidden="true">↗</span></a>
+        <div className="district-credit"><a href={districtPhotos[shown].source} target="_blank" rel="noopener noreferrer">© {districtPhotos[shown].author}</a><span> · </span><a href={districtPhotos[shown].licenseUrl} target="_blank" rel="noopener noreferrer">{districtPhotos[shown].license}</a></div>
       </div>
     </div>
   );

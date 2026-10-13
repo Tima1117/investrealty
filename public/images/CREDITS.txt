@@ -27,3 +27,13 @@ office-1.webp — Invest Realty office photo from madloba.info listing
 office-2.webp — Invest Realty office photo from madloba.info listing
 office-3.webp — Invest Realty office photo from madloba.info listing
 reel-*.webp — frames from @investrealty_batumi Instagram posts (demo only)
+
+district-makhinjauri.webp — Krzysztof Ziarnek, Kenraiz — CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0 — https://commons.wikimedia.org/wiki/File:Makhinjauri_Beach_kz1.jpg — resized, WebP conversion
+
+district-new-boulevard.webp — w0zny — CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0 — https://commons.wikimedia.org/wiki/File:Batumi,_Lech_and_Maria_Kaczynski_St._Batumi_blv.,_Georgia_Bebop_Drone_2015-08-26T170204%2B0000_36F032.jpg — resized, WebP conversion
+
+district-old-town.webp — Aleksey Muhranoff — CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0 — https://commons.wikimedia.org/wiki/File:Batumi._Piazza_Square.jpg — resized, WebP conversion
+
+district-rustaveli.webp — Андрей Романенко — CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0 — https://commons.wikimedia.org/wiki/File:Rustaveli_Avenue_in_Batumi.jpg — resized, WebP conversion
+
+district-gonio.webp — Sigara Icelmez — CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0 — https://commons.wikimedia.org/wiki/File:Gonio,_Batumi,_Georgia.jpg — resized, WebP conversion
